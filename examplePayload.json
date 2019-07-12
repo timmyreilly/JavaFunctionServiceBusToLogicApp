@@ -1,0 +1,10 @@
+{
+    "messageId": "mess-id",
+    "publishTime": "11;33",
+    "attributes": {
+        "slb-account-id": "tenant1",
+        "slb-correlation-id": "82936003-48a3-414c-9b0c-c0e5d1793fd2",
+        "slb-data-partition-id": "tenant1"
+    },
+    "data": "[{\"id\":\"tenant1:wke:wellbore-30015412100001\",\"kind\":\"tenant1:wke:wellbore:1.0.0\",\"op\":\"create\"}]"
+}
