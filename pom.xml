@@ -82,6 +82,14 @@
                 <version>3.14.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>applicationinsights-web</artifactId>
+            <!-- or applicationinsights-core for bare API -->
+            <version>[2.0,)</version>
+        </dependency>
+
+
         <!-- Test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
