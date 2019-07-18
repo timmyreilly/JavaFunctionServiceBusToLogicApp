@@ -14,3 +14,18 @@ Editing the host.json to provide some sort of rate limiting from the Azure Funct
 https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-service-bus#hostjson-settings 
 
 
+# App Insights Queries: 
+```kusto
+customEvents
+| extend startTime = customMeasurements.['StartTime']
+| extend stopTime = customMeasurements.['EndTime']
+| project startTime, stopTime, timestamp  
+```
+
+```kusto
+customEvents
+| extend startTime = tolong(customMeasurements.['StartTime'])
+| extend stopTime = tolong(customMeasurements.['EndTime'])
+| project customMeasurements, startTime, stopTime
+| order by startTime asc
+```

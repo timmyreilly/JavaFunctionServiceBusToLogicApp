@@ -1,5 +1,6 @@
 package com.function;
 
+import java.time.LocalTime;
 import java.util.*;
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.localforwarder.library.inputs.contracts.Telemetry;
@@ -35,6 +36,9 @@ public class Function {
 
         Long startTime = System.currentTimeMillis(); 
 
+        LocalTime startTimeObj = LocalTime.now();
+
+
         // Parse query parameter
         String query = request.getQueryParameters().get("name");
         String name = request.getBody().orElse(query);
@@ -46,6 +50,8 @@ public class Function {
             telemetry.trackException(e);
         }
 
+        LocalTime endTimeObj = LocalTime.now();
+        
         Long endTime = System.currentTimeMillis(); 
         Map<String, Double> metrics = new HashMap<>(); 
         metrics.put("ProcessingTime", (double)endTime-startTime); 
@@ -55,6 +61,8 @@ public class Function {
 
         Map<String, String> properties = new HashMap<>(); 
         properties.put("DocumentProcessed", "You know me"); 
+        properties.put("StartTime", startTimeObj.toString()); 
+        properties.put("EndTime", endTimeObj.toString()); 
 
         telemetry.trackEvent("DocumentProcessed", properties, metrics); 
 
