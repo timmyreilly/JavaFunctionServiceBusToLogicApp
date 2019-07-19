@@ -1,5 +1,6 @@
 package com.function;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
 import java.util.*;
@@ -30,36 +31,33 @@ public class Function {
             HttpMethod.POST }, authLevel = AuthorizationLevel.FUNCTION) HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
-        
-        LocalTime startTimeObj = LocalTime.now();
+
+        LocalDateTime startTimeObj = LocalDateTime.now();
 
         // Parse query parameter
         String query = request.getQueryParameters().get("name");
         String name = request.getBody().orElse(query);
 
         try {
-            Thread.sleep(3000); 
-        } catch (InterruptedException e) 
-        {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
             telemetry.trackException(e);
         }
 
-        LocalTime endTimeObj = LocalTime.now();
-        
-        Map<String, Double> metrics = new HashMap<>(); 
-        // metrics.put("ProcessingTime", (double)endTime-startTime); 
-        
-        metrics.put("StartTime", (double)startTimeObj.getLong(ChronoField.MICRO_OF_SECOND)); 
-        metrics.put("EndTime", (double)endTimeObj.getLong(ChronoField.MICRO_OF_SECOND)); 
+        LocalDateTime endTimeObj = LocalDateTime.now();
 
-        Map<String, String> properties = new HashMap<>(); 
-        properties.put("DocumentProcessed", UUID.randomUUID().toString()); 
-        properties.put("StartTime", startTimeObj.toString()); 
-        properties.put("EndTime", endTimeObj.toString()); 
+        Map<String, Double> metrics = new HashMap<>();
+        // metrics.put("ProcessingTime", (double)endTime-startTime);
 
-        telemetry.trackEvent("DocumentProcessed", properties, metrics); 
+        metrics.put("StartTime", (double) startTimeObj.getLong(ChronoField.MICRO_OF_SECOND));
+        metrics.put("EndTime", (double) endTimeObj.getLong(ChronoField.MICRO_OF_SECOND));
 
-        
+        Map<String, String> properties = new HashMap<>();
+        properties.put("DocumentProcessed", UUID.randomUUID().toString());
+        properties.put("StartTime", startTimeObj.toString());
+        properties.put("EndTime", endTimeObj.toString());
+
+        telemetry.trackEvent("DocumentProcessed", properties, metrics);
 
         if (name == null) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST)

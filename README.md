@@ -29,3 +29,17 @@ customEvents
 | project customMeasurements, startTime, stopTime
 | order by startTime asc
 ```
+
+```kusto
+let table3 = customEvents 
+| where name == "DocProcessed"
+| extend StartTime = todatetime(customDimensions.['StartTime'])
+| extend StopTime = todatetime(customDimensions.['EndTime'])
+| extend SessionId = customDimensions.['DocumentProcessed']
+| project customMeasurements, StartTime, StopTime, SessionId, customDimensions;
+table3
+| mv-expand samples = range(bin(StartTime, 1s), StopTime, 1s)
+| summarize count(SessionId) by bin(todatetime(samples), 1s) 
+| order by samples asc
+```
+
