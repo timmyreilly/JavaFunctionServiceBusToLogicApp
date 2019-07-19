@@ -1,6 +1,7 @@
 package com.function;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoField;
 import java.util.*;
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.localforwarder.library.inputs.contracts.Telemetry;
@@ -29,15 +30,8 @@ public class Function {
             HttpMethod.POST }, authLevel = AuthorizationLevel.FUNCTION) HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
-
         
-        String iKey = TelemetryConfiguration.getActive().getInstrumentationKey(); 
-
-
-        Long startTime = System.currentTimeMillis(); 
-
         LocalTime startTimeObj = LocalTime.now();
-
 
         // Parse query parameter
         String query = request.getQueryParameters().get("name");
@@ -52,15 +46,14 @@ public class Function {
 
         LocalTime endTimeObj = LocalTime.now();
         
-        Long endTime = System.currentTimeMillis(); 
         Map<String, Double> metrics = new HashMap<>(); 
-        metrics.put("ProcessingTime", (double)endTime-startTime); 
+        // metrics.put("ProcessingTime", (double)endTime-startTime); 
         
-        metrics.put("StartTime", (double)startTime); 
-        metrics.put("EndTime", (double)endTime); 
+        metrics.put("StartTime", (double)startTimeObj.getLong(ChronoField.MICRO_OF_SECOND)); 
+        metrics.put("EndTime", (double)endTimeObj.getLong(ChronoField.MICRO_OF_SECOND)); 
 
         Map<String, String> properties = new HashMap<>(); 
-        properties.put("DocumentProcessed", "You know me"); 
+        properties.put("DocumentProcessed", UUID.randomUUID().toString()); 
         properties.put("StartTime", startTimeObj.toString()); 
         properties.put("EndTime", endTimeObj.toString()); 
 
