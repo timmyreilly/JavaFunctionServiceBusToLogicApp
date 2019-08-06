@@ -36,7 +36,7 @@ public class ServiceBusQueueTriggerJava {
         RequestBody bodyFromMessage = RequestBody.create(mediaType, message); 
         
         String defaultEndpoint = "https://prod-18.westus2.logic.azure.com:443/workflows/faed76bb5c43460186a9ae81cac85c80/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oDHW9FrpLWUMbF86kudup5ANyUbz6QFQ0HHb-nShxeI";
-        String endpoint = System.getenv("URL_ENDPOINT") ? System.getenv("URL_ENDPOINT") : defaultEndpoint; 
+        String endpoint = System.getenv("URL_ENDPOINT") == null ? defaultEndpoint : System.getenv("URL_ENDPOINT"); 
                 
         Request request = new Request.Builder()
         .url(endpoint)

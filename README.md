@@ -43,3 +43,19 @@ table3
 | order by samples asc
 ```
 
+# Sample `local.settings.json` 
+
+```json
+
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=taskqueueratelib711;AccountKey=ab12secret5H5mFscAl2mr/Utb+9K+mTBlfI7karxMOK+0Lh15OTjdGDRsHX+TmEorgCXlqSECRETTLzIj7NfK/Lw==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "java",
+    "StorageToIndexer_SERVICEBUS": "Endpoint=sb://storagetoindexer.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=abcdefpeoWtox6JqdcxoRlRMtRssoIYXFLG3E2bwKKk=", 
+    "APPLICATION_INSIGHTS_IKEY" : "efc44cda-da26-49a6-bf94-123e12d08e19", 
+    "URL_ENDPOINT" : "https://prod-18.westus2.logic.azure.com:443/workflows/abcd12bb5c43460186a9ae81cac85c80/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oABC9FrpLWUMbF86kudup5ANyUbz6QFQ0HHb-nShxeI"
+  }
+}
+
+```
