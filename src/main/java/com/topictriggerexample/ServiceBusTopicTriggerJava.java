@@ -1,7 +1,10 @@
 package com.topictriggerexample;
 
 import com.microsoft.azure.functions.annotation.*;
+import java.io.IOException;
 import com.microsoft.azure.functions.*;
+import okhttp3.*;
+
 
 /**
  * Azure Functions with Service Topic Trigger.
