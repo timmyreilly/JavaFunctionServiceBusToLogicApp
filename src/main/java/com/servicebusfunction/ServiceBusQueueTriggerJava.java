@@ -32,13 +32,14 @@ public class ServiceBusQueueTriggerJava {
 
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
-        String endpoint = "https://prod-18.westus2.logic.azure.com:443/workflows/faed76bb5c43460186a9ae81cac85c80/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oDHW9FrpLWUMbF86kudup5ANyUbz6QFQ0HHb-nShxeI";
-
-        RequestBody bodyFromMessage = RequestBody.create(mediaType, message); 
-
         
+        RequestBody bodyFromMessage = RequestBody.create(mediaType, message); 
+        
+        String defaultEndpoint = "https://prod-18.westus2.logic.azure.com:443/workflows/faed76bb5c43460186a9ae81cac85c80/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oDHW9FrpLWUMbF86kudup5ANyUbz6QFQ0HHb-nShxeI";
+        String endpoint = System.getenv("URL_ENDPOINT") == null ? System.getenv("URL_ENDPOINT") : defaultEndpoint; 
+                
         Request request = new Request.Builder()
-        .url("https://prod-18.westus2.logic.azure.com:443/workflows/faed76bb5c43460186a9ae81cac85c80/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oDHW9FrpLWUMbF86kudup5ANyUbz6QFQ0HHb-nShxeI")
+        .url(endpoint)
         .post(bodyFromMessage)
         .addHeader("Content-Type", "application/json")
         .build();

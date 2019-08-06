@@ -56,7 +56,7 @@ public class Function {
         properties.put("DocumentProcessed", UUID.randomUUID().toString());
         properties.put("StartTime", startTimeObj.toString());
         properties.put("EndTime", endTimeObj.toString());
-
+        
         telemetry.trackEvent("DocumentProcessed", properties, metrics);
 
         if (name == null) {
