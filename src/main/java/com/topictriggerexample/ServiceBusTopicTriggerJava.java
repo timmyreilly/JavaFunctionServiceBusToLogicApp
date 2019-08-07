@@ -27,7 +27,7 @@ public class ServiceBusTopicTriggerJava {
     @FunctionName("ServiceBusTopicTriggerJava")
     public void run(
             @ServiceBusTopicTrigger(name = "message", topicName = "microsoft-indexer-queue", subscriptionName = "az-function-subscriber", connection = "StorageToIndexer_SERVICEBUS") String message,
-            final ExecutionContext context) throws IOException {
+            final ExecutionContext context) {
         context.getLogger().info("Java Service Bus Topic trigger function executed.");
         context.getLogger().info(message);
 
@@ -50,7 +50,8 @@ public class ServiceBusTopicTriggerJava {
             e.printStackTrace();
         }
 
-        // can we do it with the native java http client:
+        // This way we're doing it with a native Java Library (No dependency on okhttp3): 
+
         String url = defaultEndpoint;
         byte[] postData = message.getBytes(StandardCharsets.UTF_8);
 
@@ -61,8 +62,8 @@ public class ServiceBusTopicTriggerJava {
 
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("User-Agent", "Java client");
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            // connection.setRequestProperty("User-Agent", "Java client");
+            connection.setRequestProperty("Content-Type", "application/json");
 
             try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
                 wr.write(postData);
@@ -81,10 +82,11 @@ public class ServiceBusTopicTriggerJava {
                 }
             }
 
-            System.out.println(content.toString());
+            context.getLogger().info(content.toString());
 
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
-
             connection.disconnect();
         }
 
